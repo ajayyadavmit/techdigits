@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Take Picture and Convert to Base64</title>
+</head>
+
+<body>
+  <h1>Take Picture and Convert to Base64</h1>
+
+  <div id="cameraContainer">
+    <video id="videoElement" autoplay></video>
+    <button id="captureButton">Capture Picture</button>
+  </div>
+
+  <h2 id="two">Converted Base64 Image:</h2>
+  <div id="base64ImageContainer"></div>
+
+  <a id="downloadLink" download="captured_image.jpeg" style="display: none;">Download Image</a>
+
+  <script>
+    // Get video and canvas elements
+    const videoElement = document.getElementById('videoElement');
+    const captureButton = document.getElementById('captureButton');
+    const base64ImageContainer = document.getElementById('base64ImageContainer');
+    const downloadLink = document.getElementById('downloadLink');
+
+    // Access the device camera
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then((stream) => {
+        videoElement.srcObject = stream;
+      })
+      .catch((error) => {
+        console.error('Error accessing camera:', error);
+      });
+
+    // Capture picture and convert to Base64
+    captureButton.addEventListener('click', () => {
+      const canvas = document.createElement('canvas');
+      const context = canvas.getContext('2d');
+      canvas.width = videoElement.videoWidth;
+      canvas.height = videoElement.videoHeight;
+      context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+      const base64Image = canvas.toDataURL('image/jpeg');
+      base64ImageContainer.innerHTML = `<img src="${base64Image}" alt="Captured Image">`;
+      downloadLink.href = base64Image;
+      downloadLink.style.display = 'inline';
+    });
+  </script>
+</body>
+
+</html>
