@@ -30,3 +30,12 @@ body {
   height: 100vh;
   margin: 0;
 }
+
+.bottom-text {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background-color: #393434;
+  padding: 10px;
+}
